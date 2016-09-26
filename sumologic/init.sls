@@ -1,0 +1,120 @@
+{%- from 'sumologic/conf/settings.sls' import sumologic with context %}
+
+include:
+  - sun-java
+  - sun-java.env
+
+### APPLICATION INSTALL ###
+unpack-sumologic-tarball:
+  archive.extracted:
+    - name: {{ sumologic.prefix }}/sumologic
+    - source: {{ sumologic.source_url }} ##/SumoCollector_unix_{{ sumologic.version }}.tar.gz
+    ## need the file from the cache??
+    - source_hash: {{ salt['pillar.get']('sumologic:source_hash', '') }}
+    - archive_format: tar
+    - user: sumologic
+    - tar_options: z
+    - if_missing: {{ sumologic.prefix }}/sumocollector
+    - keep: True
+    - require:
+      - module: sumologic-stop
+      - file: sumologic-init-script
+      - user: sumologic
+    - listen_in:
+      - module: sumologic-restart
+
+fix-sumologic-filesystem-permissions:
+  file.directory:
+    - user: sumologic
+    - recurse:
+      - user
+    - names:
+      - {{ sumologic.prefix }}/sumocollector
+      - {{ sumologic.home }}
+    - watch:
+      - archive: unpack-sumologic-tarball
+
+### SERVICE ###
+sumologic-service:
+  service.running:
+    - name: sumologic
+    - enable: True
+    - require:
+      - archive: unpack-sumologic-tarball
+      - file: sumologic-init-script
+
+# used to trigger restarts by other states
+sumologic-restart:
+  module.wait:
+    - name: service.restart
+    - m_name: sumologic
+
+sumologic-stop:
+  module.wait:
+    - name: service.stop
+    - m_name: sumologic  
+
+sumologic-init-script:
+  file.managed:
+    - name: '/lib/systemd/system/sumologic.service'
+    - source: salt://sumologic/templates/sumologic.systemd.tmpl
+    - user: root
+    - group: root
+    - mode: 0644
+    - template: jinja
+    - context:
+      sumologic: {{ sumologic|json }}
+
+create-sumologic-service-symlink:
+  file.symlink:
+    - name: '/etc/systemd/system/sumologic.service'
+    - target: '/lib/systemd/system/sumologic.service'
+    - user: root
+    - watch:
+      - file: sumologic-init-script
+
+sumologic:
+  user.present
+
+### FILES ###
+{{ sumologic.prefix }}/sumocollector/config/user.properties:
+  file.managed:
+    - source: salt://sumologic/templates/user.properties.tmpl
+    - user: {{ sumologic.user }}
+    - template: jinja
+    - listen_in:
+      - module: sumologic-restart
+
+{{ sumologic.prefix }}/sumocollector/wrapper:
+  file.managed:
+    - source: {{ sumologic.prefix }}/sumocollector/tanuki/{{ sumologic.platform }}/wrapper
+    - user: {{ sumologic.user }}
+    - mode: 0754
+    - watch_in:
+      - module: sumologic-restart
+
+{{ sumologic.prefix }}/sumocollector/collector:
+  file.managed:
+    - source: {{ sumologic.prefix }}/sumocollector/collector
+    - user: {{ sumologic.user }}
+    - mode: 0754
+    - watch_in:
+      - module: sumologic-restart
+
+{{ sumologic.prefix }}/sumocollector/{{ sumologic.version }}/bin/native/lib/libwrapper.so:
+  file.managed:
+    - source: {{ sumologic.prefix }}/sumologic/sumocollector/tanuki/{{ sumologic.platform }}/libwrapper.so
+    - user: {{ sumologic.user }}
+    - watch_in:
+      - module: sumologic-restart
+
+{{ sumologic.prefix }}/sumocollector/sources.json:
+  file.managed:
+    - source: salt://sumologic/templates/sources.json.tmpl
+    - user: {{ sumologic.user }}
+    - template: jinja
+    - context:
+      sumologic: {{ sumologic|json }}
+    - watch_in:
+      - module: sumologic-restart
+

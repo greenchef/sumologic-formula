@@ -1,0 +1,6 @@
+{%- from 'sumologic/conf/settings.sls' import sumologic with context %}   
+
+name = {{ sumologic.collector_name }}
+accessid = {{ sumologic.access_id }}
+accesskey = {{ sumologic.access_key }}
+wrapper.java.command = java
