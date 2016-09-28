@@ -87,7 +87,7 @@ sumologic:
 
 {{ sumologic.prefix }}/sumocollector/wrapper:
   file.managed:
-    - source: {{ sumologic.prefix }}/sumocollector/tanuki/{{ sumologic.platform }}/wrapper
+    - source: {{ sumologic.prefix }}/sumocollector/tanuki/linux64/wrapper
     - user: {{ sumologic.user }}
     - mode: 0754
     - watch_in:
@@ -103,7 +103,7 @@ sumologic:
 
 {{ sumologic.prefix }}/sumocollector/{{ sumologic.version }}/bin/native/lib/libwrapper.so:
   file.managed:
-    - source: {{ sumologic.prefix }}/sumologic/sumocollector/tanuki/{{ sumologic.platform }}/libwrapper.so
+    - source: {{ sumologic.prefix }}/sumologic/sumocollector/tanuki/linux64/libwrapper.so
     - user: {{ sumologic.user }}
     - watch_in:
       - module: sumologic-restart
