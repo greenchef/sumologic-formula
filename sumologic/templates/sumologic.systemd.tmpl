@@ -3,8 +3,6 @@ Description=SumoLogic Log Collector
 After=network.target auditd.service
 
 [Service]
-Environment="JIRA_HOME={{ jira.home }}"
-Environment="JAVA_HOME=/usr/lib/java"
 ExecStartPre=cd {{ sumologic.prefix }}/sumocollector/logs
 ExecStart={{ sumologic.prefix }}/sumocollector/collector start
 ExecStop={{ sumologic.prefix }}/sumocollector/collector stop
