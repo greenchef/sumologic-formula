@@ -24,8 +24,8 @@
 
 {%- set confluence_home  = salt['pillar.get']('users:%s:home' % confluence_user, '/home/confluence') %}
 
-{%- set confluence = {} %}
-{%- do confluence.update( { 'version'        : version,
+{%- set sumologic = {} %}
+{%- do sumologic.update( { 'version'        : version,
                       'source_url'     : source_url,
                       'dbdriver_url'   : dbdriver_url,
                       'dbdriver_version': dbdriver_version,
