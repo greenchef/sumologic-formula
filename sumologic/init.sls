@@ -7,9 +7,8 @@ include:
 ### APPLICATION INSTALL ###
 unpack-sumologic-tarball:
   archive.extracted:
-    - name: {{ sumologic.prefix }}/sumologic
-    - source: {{ sumologic.source_url }} ##/SumoCollector_unix_{{ sumologic.version }}.tar.gz
-    ## need the file from the cache??
+    - name: {{ sumologic.prefix }}
+    - source: {{ sumologic.source_url }}
     - source_hash: {{ salt['pillar.get']('sumologic:source_hash', '') }}
     - archive_format: tar
     - user: sumologic
