@@ -109,12 +109,9 @@ sumologic:
       - module: sumologic-restart
 
 {{ sumologic.prefix }}/sumocollector/sources.json:
-  file.managed:
-    - source: salt://sumologic/templates/sources.json.tmpl
+  file.serialize:
     - user: {{ sumologic.user }}
-    - template: jinja
-    - context:
-      sumologic: {{ sumologic|json }}
+    - formatter: json
+    - dataset_pillar: 'sumologic:sources'
     - watch_in:
       - module: sumologic-restart
-
