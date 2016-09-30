@@ -102,7 +102,7 @@ sumologic:
 
 {{ sumologic.prefix }}/sumocollector/{{ sumologic.version }}/bin/native/lib/libwrapper.so:
   file.managed:
-    - source: {{ sumologic.prefix }}/sumologic/sumocollector/tanuki/linux64/libwrapper.so
+    - source: {{ sumologic.prefix }}/sumocollector/tanuki/linux64/libwrapper.so
     - user: {{ sumologic.user }}
     - watch_in:
       - module: sumologic-restart

@@ -7,11 +7,13 @@
 {%- set default_source_url   = 'https://collectors.sumologic.com/rest/download/tar' %}
 {%- set default_sumologic_user = 'sumologic' %}
 {%- set default_collector_name = 'saltstack' %}
+{%- set default_access_id    = 'changeme' %}
 
 {%- set version        = g.get('version', p.get('version', default_version)) %}
 {%- set source_url     = g.get('source_url', p.get('source_url', default_source_url)) %}
 {%- set prefix         = g.get('prefix', p.get('prefix', default_prefix)) %}
 {%- set sumologic_user = g.get('user', p.get('user', default_sumologic_user)) %}
+{%- set access_id      = g.get('access_id', p.get('access_id', default_access_id)) %}
 {%- set collector_name = g.get('collector_name', p.get('collector_name', default_collector_name)) %}
 
 
@@ -23,6 +25,7 @@
                       'home'           : sumologic_home,
                       'prefix'         : prefix,
                       'user'           : sumologic_user,
+                      'access_id'      : access_id,
                       'collector_name' : collector_name,
                   }) %}
 
