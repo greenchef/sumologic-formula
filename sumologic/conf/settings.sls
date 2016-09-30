@@ -8,12 +8,14 @@
 {%- set default_sumologic_user = 'sumologic' %}
 {%- set default_collector_name = 'saltstack' %}
 {%- set default_access_id    = 'changeme' %}
+{%- set default_access_key   = 'changeme' %}
 
 {%- set version        = g.get('version', p.get('version', default_version)) %}
 {%- set source_url     = g.get('source_url', p.get('source_url', default_source_url)) %}
 {%- set prefix         = g.get('prefix', p.get('prefix', default_prefix)) %}
 {%- set sumologic_user = g.get('user', p.get('user', default_sumologic_user)) %}
 {%- set access_id      = g.get('access_id', p.get('access_id', default_access_id)) %}
+{%- set access_key     = g.get('access_key', p.get('access_key', default_access_key)) %}
 {%- set collector_name = g.get('collector_name', p.get('collector_name', default_collector_name)) %}
 
 
@@ -26,6 +28,7 @@
                       'prefix'         : prefix,
                       'user'           : sumologic_user,
                       'access_id'      : access_id,
+                      'access_key'     : access_key,
                       'collector_name' : collector_name,
                   }) %}
 
