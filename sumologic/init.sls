@@ -29,6 +29,7 @@ fix-sumologic-filesystem-permissions:
       - user
     - names:
       - {{ sumologic.prefix }}/sumocollector
+      - {{ sumologic.prefix }}/sumocollector/sources
       - {{ sumologic.home }}
     - watch:
       - archive: unpack-sumologic-tarball
@@ -107,7 +108,7 @@ sumologic:
     - watch_in:
       - module: sumologic-restart
 
-{{ sumologic.prefix }}/sumocollector/sources.json:
+{{ sumologic.prefix }}/sumocollector/sources/pillar.json:
   file.serialize:
     - user: {{ sumologic.user }}
     - formatter: json
