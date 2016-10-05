@@ -16,7 +16,7 @@
 {%- set sumologic_user = g.get('user', p.get('user', default_sumologic_user)) %}
 {%- set access_id      = g.get('access_id', p.get('access_id', default_access_id)) %}
 {%- set access_key     = g.get('access_key', p.get('access_key', default_access_key)) %}
-{%- set collector_name = g.get('collector_name', p.get('collector_name', default_collector_name)) %}
+{%- set collector_name = salt['grains.get']('ec2_tags:application', default_collector_name) %}
 
 
 {%- set sumologic_home  = salt['pillar.get']('users:%s:home' % sumologic_user, '/home/sumologic') %}
