@@ -1,0 +1,6 @@
+systemd:
+  path: /lib/systemd/system/sumologic.service
+  template: salt://sumologic/templates/sumologic.systemd.tmpl
+upstart:
+  path: /etc/init/sumologic.conf
+  template: salt://sumologic/templates/sumologic.upstart.tmpl

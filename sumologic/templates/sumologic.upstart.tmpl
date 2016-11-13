@@ -1,0 +1,5 @@
+description "SumoLogic Log Collector"
+author "Tanuki Software Ltd."
+start on runlevel [2345]
+stop on runlevel [!2345]
+exec={{ sumologic.prefix }}/sumocollector/collector launchdinternal

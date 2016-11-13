@@ -1,4 +1,7 @@
 {%- from 'sumologic/conf/settings.sls' import sumologic with context %}
+{%- import_yaml 'sumologic/conf/initmap.yml' as initmap %}
+{%- set init = salt['grains.filter_by'](initmap,grain='init',default='systemd') %}
+
 
 include:
   - sun-java
@@ -56,8 +59,8 @@ sumologic-stop:
 
 sumologic-init-script:
   file.managed:
-    - name: '/lib/systemd/system/sumologic.service'
-    - source: salt://sumologic/templates/sumologic.systemd.tmpl
+    - name: {{ init.path }}
+    - source: {{ init.template }}
     - user: root
     - group: root
     - mode: 0644
