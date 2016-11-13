@@ -1,6 +1,6 @@
 {%- from 'sumologic/conf/settings.sls' import sumologic with context %}   
 
-name = {{ sumologic.collector_name }}
+name = {{ grains.id }}
 accessid = {{ sumologic.access_id }}
 accesskey = {{ sumologic.access_key }}
 wrapper.java.command = /usr/lib/java/bin/java

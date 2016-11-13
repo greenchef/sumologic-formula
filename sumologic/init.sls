@@ -68,6 +68,7 @@ sumologic-init-script:
     - context:
       sumologic: {{ sumologic|json }}
 
+{% if salt['grains.get']('init', 'systemd') == 'systemd' %}
 create-sumologic-service-symlink:
   file.symlink:
     - name: '/etc/systemd/system/sumologic.service'
@@ -75,6 +76,7 @@ create-sumologic-service-symlink:
     - user: root
     - watch:
       - file: sumologic-init-script
+{% endif %}
 
 sumologic:
   user.present
