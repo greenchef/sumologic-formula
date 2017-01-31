@@ -17,7 +17,7 @@ unpack-sumologic-tarball:
     - source_hash: {{ salt['pillar.get']('sumologic:source_hash', '') }}
     - archive_format: tar
     - user: sumologic
-    - tar_options: z
+    - options: z
     - if_missing: {{ sumologic.prefix }}/sumocollector/{{ sumologic.version }}
     - keep: True
     - require:
