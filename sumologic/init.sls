@@ -1,3 +1,4 @@
+# -*- yaml -*- #
 {%- from 'sumologic/conf/settings.sls' import sumologic with context %}
 {%- import_yaml 'sumologic/conf/initmap.yml' as initmap %}
 {%- set init = salt['grains.filter_by'](initmap,grain='init',default='systemd') %}
@@ -16,7 +17,7 @@ unpack-sumologic-tarball:
     - archive_format: tar
     - user: sumologic
     - tar_options: z
-    - if_missing: {{ sumologic.prefix }}/sumocollector
+    - if_missing: {{ sumologic.prefix }}/sumocollector/{{ sumologic.version }}
     - keep: True
     - require:
       - module: sumologic-stop
