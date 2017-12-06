@@ -12,7 +12,7 @@ include:
 unpack-sumologic-tarball:
   archive.extracted:
     - name: {{ sumologic.prefix }}
-    - source: {{ sumologic.source_url }}
+    - source: "https://collectors.sumologic.com/rest/download/tar?version={{ sumologic.version }}"
     - skip_verify: True
     - source_hash: {{ salt['pillar.get']('sumologic:source_hash', '') }}
     - archive_format: tar
