@@ -21,7 +21,6 @@
 
 {%- set sumologic = {} %}
 {%- do sumologic.update( { 'version'        : version,
-                      'source_url'     : source_url,
                       'home'           : sumologic_home,
                       'prefix'         : prefix,
                       'user'           : sumologic_user,
